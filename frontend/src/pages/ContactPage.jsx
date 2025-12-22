@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useInView } from '../hooks/useInView'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
 
@@ -10,13 +11,23 @@ export default function ContactPage() {
     preferredChannel: 'email',
     message: '',
   })
+  const [touched, setTouched] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
+  const [infoRef, infoInView] = useInView()
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
+    if (!touched[name]) {
+      setTouched((prev) => ({ ...prev, [name]: true }))
+    }
+  }
+
+  const handleBlur = (e) => {
+    const { name } = e.target
+    setTouched((prev) => ({ ...prev, [name]: true }))
   }
 
   const handleSubmit = async (e) => {
@@ -34,6 +45,7 @@ export default function ContactPage() {
       if (!res.ok) throw new Error(data.message || 'Unable to send message')
       setDone(true)
       setForm({ name: '', email: '', phone: '', preferredChannel: 'email', message: '' })
+      setTouched({})
     } catch (e) {
       console.error(e)
       setError(e.message || 'Unable to send message')
@@ -65,6 +77,8 @@ export default function ContactPage() {
                   required
                   value={form.name}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={form.name && touched.name ? 'success' : ''}
                 />
               </div>
               <div className="field">
@@ -76,6 +90,8 @@ export default function ContactPage() {
                   required
                   value={form.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={form.email && touched.email ? 'success' : ''}
                 />
               </div>
               <div className="field">
@@ -86,6 +102,7 @@ export default function ContactPage() {
                   type="tel"
                   value={form.phone}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -124,7 +141,7 @@ export default function ContactPage() {
             </button>
           </form>
 
-          <div className="card contact-info">
+          <div className={`card contact-info ${infoInView ? 'in-view' : ''}`} ref={infoRef}>
             <h3>Practical details</h3>
             <ul className="bullet-list">
               <li>Session duration: 60 minutes</li>

@@ -951,14 +951,24 @@ textarea {
 
 .form-error {
   margin-top: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-md);
+  background: rgba(249, 115, 115, 0.1);
   color: var(--danger);
   font-size: 0.8rem;
+  border: 1px solid rgba(249, 115, 115, 0.3);
+  animation: slideInUp 0.3s ease-out;
 }
 
 .form-success {
   margin-top: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-md);
+  background: rgba(74, 222, 128, 0.1);
   color: var(--success);
   font-size: 0.8rem;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  animation: slideInUp 0.3s ease-out;
 }
 
 .booking-highlight h3 {
