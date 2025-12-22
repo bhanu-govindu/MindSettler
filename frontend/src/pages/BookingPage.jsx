@@ -14,6 +14,7 @@ export default function BookingPage() {
     time: '',
     notes: '',
   })
+  const [touched, setTouched] = useState({})
   const [slots, setSlots] = useState([])
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -48,7 +49,18 @@ export default function BookingPage() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }))
+    if (!touched[name]) {
+      setTouched((prev) => ({ ...prev, [name]: true }))
+    }
   }
+
+  const handleBlur = (e) => {
+    const { name } = e.target
+    setTouched((prev) => ({ ...prev, [name]: true }))
+  }
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  const isValidPhone = (phone) => !phone || /^\d{10,}$/.test(phone.replace(/\D/g, ''))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -66,6 +78,18 @@ export default function BookingPage() {
         throw new Error(data.message || 'Something went wrong')
       }
       setResult(data.booking)
+      setForm({
+        name: '',
+        email: '',
+        phone: '',
+        mode: 'online',
+        sessionType: 'individual',
+        isFirstSession: true,
+        date: '',
+        time: '',
+        notes: '',
+      })
+      setTouched({})
     } catch (err) {
       console.error(err)
       setError(err.message || 'Unable to submit booking at the moment.')
@@ -121,6 +145,8 @@ export default function BookingPage() {
                   required
                   value={form.name}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={form.name && touched.name ? 'success' : ''}
                 />
               </div>
               <div className="field">
@@ -132,7 +158,12 @@ export default function BookingPage() {
                   required
                   value={form.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={touched.email ? (isValidEmail(form.email) ? 'success' : '') : ''}
                 />
+                {touched.email && !isValidEmail(form.email) && form.email && (
+                  <span className="form-error">Please enter a valid email address</span>
+                )}
               </div>
               <div className="field">
                 <label htmlFor="phone">Phone (WhatsApp preferred)</label>
@@ -142,7 +173,12 @@ export default function BookingPage() {
                   type="tel"
                   value={form.phone}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={form.phone && touched.phone ? (isValidPhone(form.phone) ? 'success' : '') : ''}
                 />
+                {touched.phone && form.phone && !isValidPhone(form.phone) && (
+                  <span className="form-error">Please enter a valid phone number</span>
+                )}
               </div>
             </div>
 
