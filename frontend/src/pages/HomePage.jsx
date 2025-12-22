@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useInView } from '../hooks/useInView'
 
 function scrollToSection(id) {
   const el = document.getElementById(id)
@@ -8,6 +9,10 @@ function scrollToSection(id) {
 }
 
 export default function HomePage() {
+  const [aboutRef, aboutInView] = useInView()
+  const [howRef, howInView] = useInView()
+  const [diffRef, diffInView] = useInView()
+
   return (
     <main id="top">
       <section className="hero">
@@ -32,7 +37,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="hero-visual">
-            <div className="journey-card">
+            <div className="journey-card" style={{ animation: 'slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards' }}>
               <p className="eyebrow">Your journey</p>
               <ol className="journey-list">
                 <li>Notice something feels heavy, confusing, or stuck.</li>
@@ -46,7 +51,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="section">
+      <section id="about" className={`section ${aboutInView ? 'in-view' : ''}`} ref={aboutRef}>
         <div className="section-header">
           <p className="eyebrow">About MindSettler</p>
           <h2>A psycho-education studio for everyday life</h2>
@@ -75,7 +80,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="section">
+      <section id="how-it-works" className={`section ${howInView ? 'in-view' : ''}`} ref={howRef}>
         <div className="section-header">
           <p className="eyebrow">How it works</p>
           <h2>From first message to settled next steps</h2>
@@ -130,7 +135,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="difference" className="section">
+      <section id="difference" className={`section ${diffInView ? 'in-view' : ''}`} ref={diffRef}>
         <div className="section-header">
           <p className="eyebrow">What makes MindSettler different</p>
           <h2>Gentle, structured, and grounded in real life</h2>

@@ -89,6 +89,47 @@
   }
 }
 
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 250ms ease;
+  position: relative;
+}
+
+a:hover {
+  color: var(--accent-strong);
+}
+
+a:not(.primary-btn):not(.secondary-btn)::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--accent), var(--accent-strong));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+a:not(.primary-btn):not(.secondary-btn):hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -249,6 +290,11 @@ main {
   letter-spacing: -0.03em;
   margin-bottom: 0.75rem;
   animation: slideInLeft 0.6s ease-out;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
 }
 
 .hero-subtitle {
@@ -344,6 +390,11 @@ main {
 .section-header h2 {
   margin: 0.35rem 0 0.35rem;
   font-size: 1.7rem;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent-strong) 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .section-subtitle {
