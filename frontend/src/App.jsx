@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import './index.css'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
@@ -11,19 +12,27 @@ import FAQsPage from './pages/FAQsPage'
 import ContactPage from './pages/ContactPage'
 
 function App() {
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(() => {
+    setIsReady(true)
+  }, [])
+
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/psycho-education" element={<PsychoEducationPage />} />
-        <Route path="/journey" element={<JourneyPage />} />
-        <Route path="/booking" element={<BookingPage />} />
-        <Route path="/corporate" element={<CorporatePage />} />
-        <Route path="/faqs" element={<FAQsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
-    </Layout>
+    <div className={`app-root ${isReady ? 'app-ready' : ''}`}>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/psycho-education" element={<PsychoEducationPage />} />
+          <Route path="/journey" element={<JourneyPage />} />
+          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/corporate" element={<CorporatePage />} />
+          <Route path="/faqs" element={<FAQsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </Layout>
+    </div>
   )
 }
 
