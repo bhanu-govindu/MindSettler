@@ -1,0 +1,42 @@
+.desi-frame-inner {
+  padding: 0;
+  min-height: 360px;
+}
+
+
+.desi-crossfade { position: relative; width: 100%; height: 100%; }
+.desi-crossfade .desi-img { position: absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; border-radius:0.9rem; }
+.desi-img-prev { opacity: 1; transition: opacity 420ms ease-in-out, transform 420ms ease; z-index:1 }
+.desi-img-current { /* visible by default */ opacity: 1; transition: opacity 420ms ease-in-out, transform 420ms ease; z-index:2 }
+.desi-img-current.showing { opacity: 1 }
+.desi-img-prev.hidden { opacity: 0 }
+
+.mindsettler-reel-frame,
+.desi-frame-inner {
+  z-index: 2;
+}
+
+.card { pointer-events: auto }
+.card * { pointer-events: auto; cursor: inherit }
+.card button, .card a { cursor: pointer }
+
+.card { 
+  transition: transform 150ms cubic-bezier(0.22,1,0.36,1), box-shadow 150ms ease, border-color 150ms ease; 
+  z-index: 3;
+}
+
+.card:hover,
+#about .card:hover,
+#about.in-view .card:hover,
+#services .card:hover,
+#services .two-column .card:hover,
+#difference .card:hover,
+#difference.in-view .card:hover {
+  transform: translateY(-12px) scale(1.025) !important;
+  box-shadow: 0 48px 110px rgba(63,41,101,0.2) !important;
+  border-color: rgba(221,23,100,0.22) !important;
+}
+
+.card:active { 
+  transform: translateY(-6px) scale(1.01) !important;
+}

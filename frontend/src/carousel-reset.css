@@ -1,0 +1,10 @@
+.desi-frame-inner { padding: 1.2rem; min-height: 360px; }
+.desi-frame-inner .desi-img { width: 100%; display: block; object-fit: contain; border-radius: 1rem; opacity: 1 !important; transform: none !important; position: static !important; }
+.desi-crossfade { display: none !important; }
+
+
+.desi-arrow-inline { position: absolute; right: 1.1rem; bottom: 1.1rem; z-index: 20 }
+
+
+.card { pointer-events: auto; transition: transform 260ms ease, box-shadow 260ms ease; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 28px 70px rgba(63,41,101,0.14); }

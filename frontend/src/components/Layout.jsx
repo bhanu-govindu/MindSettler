@@ -189,28 +189,45 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
-        <div>
+        <div className="footer-brand">
           <p className="brand-name">MindSettler</p>
-          <p className="muted">Psycho-education &amp; mental well-being platform</p>
-          <p className="muted small">
+          <p className="footer-tagline">Psycho-education &amp; mental well-being platform</p>
+          <p className="footer-disclaimer">
             This website is for informational purposes only and is not a substitute for professional medical or
             psychiatric care.
           </p>
         </div>
-        <div className="footer-links">
-          <a href="#policies">Privacy</a>
-          <a href="#policies">Non-refund policy</a>
-          <a href="#policies">Confidentiality</a>
+        <div className="footer-section">
+          <h4 className="footer-section-title">Policies</h4>
+          <div className="footer-links">
+            <a href="#policies">Privacy</a>
+            <a href="#policies">Non-refund policy</a>
+            <a href="#policies">Confidentiality</a>
+          </div>
         </div>
-        <div className="footer-links">
-          <a
-            href="https://www.instagram.com/mindsettlerbypb/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Instagram
-          </a>
+        <div className="footer-section">
+          <h4 className="footer-section-title">Connect</h4>
+          <div className="footer-links">
+            <a
+              href="https://www.instagram.com/mindsettlerbypb/"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-social-link"
+            >
+              <span>Instagram</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
         </div>
+      </div>
+      <div className="footer-bottom">
+        <p className="footer-copyright">
+          &copy; {new Date().getFullYear()} MindSettler by Parnika. All rights reserved.
+        </p>
       </div>
     </footer>
   )

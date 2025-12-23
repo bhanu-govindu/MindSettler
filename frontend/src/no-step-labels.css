@@ -1,0 +1,10 @@
+
+
+#stats .section-header .eyebrow::before,
+#about .section-header .eyebrow::before,
+#how-it-works .section-header .eyebrow::before,
+#difference .section-header .eyebrow::before,
+#services .section-header .eyebrow::before,
+#mindsettler-story .section-header .eyebrow::before {
+  content: none !important;
+}

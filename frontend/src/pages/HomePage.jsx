@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useInView } from '../hooks/useInView'
+import DesiGallery from '../components/DesiGallery'
 
 function scrollToSection(id) {
   const el = document.getElementById(id)
@@ -12,6 +13,64 @@ export default function HomePage() {
   const [aboutRef, aboutInView] = useInView()
   const [howRef, howInView] = useInView()
   const [diffRef, diffInView] = useInView()
+  const [statsRef, statsInView] = useInView()
+
+  const [counts, setCounts] = useState({ reach: 0, help: 0, youth: 0 })
+  const [imageIndex, setImageIndex] = useState(0)
+  const [prevIndex, setPrevIndex] = useState(null)
+  const [isCrossfading, setIsCrossfading] = useState(false)
+  const images = [
+    'desi-1.jpg',
+    'desi-2.jpg',
+    'desi-3.jpg',
+    'desi-4.jpg',
+    'desi-5.jpg',
+    'desi-6.jpg',
+    'desi-7.jpg',
+    'desi-8.jpg',
+  ]
+
+  function nextImage() {
+    const next = (imageIndex + 1) % images.length
+    setPrevIndex(imageIndex)
+    setImageIndex(next)
+    setIsCrossfading(true)
+    setTimeout(() => {
+      setPrevIndex(null)
+      setIsCrossfading(false)
+    }, 500) // match CSS duration
+  }
+
+  function prevImage() {
+    const prev = (imageIndex - 1 + images.length) % images.length
+    setPrevIndex(imageIndex)
+    setImageIndex(prev)
+    setIsCrossfading(true)
+    setTimeout(() => {
+      setPrevIndex(null)
+      setIsCrossfading(false)
+    }, 500) 
+  }
+
+  useEffect(() => {
+    if (!statsInView) return
+
+    const targets = { reach: 20, help: 75, youth: 50 } 
+    const duration = 1200
+    const start = performance.now()
+
+    function step(now) {
+      const t = Math.min(1, (now - start) / duration)
+      setCounts({
+        reach: Math.round(targets.reach * t),
+        help: Math.round(targets.help * t),
+        youth: Math.round(targets.youth * t),
+      })
+      if (t < 1) requestAnimationFrame(step)
+    }
+
+    requestAnimationFrame(step)
+  }, [statsInView])
 
   return (
     <main id="top">
@@ -51,6 +110,115 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section
+        id="stats"
+        className={`section-alt section stats-layout ${statsInView ? 'in-view' : ''}`}
+        ref={statsRef}
+      >
+        <div className="section-header">
+          <p className="eyebrow">Mental Wellness — By the numbers</p>
+          <h2>Small facts, big reasons to care</h2>
+        </div>
+
+        <div className="two-column stats-layout-inner">
+          {/* Left: vertical stats with emotional reassurance */}
+          <div className="stats-column-left">
+            <div className="card stat-card stat-soft">
+              <div className="stat-leading-row">
+                <span className="stat-icon" aria-hidden="true">
+                  ●
+                </span>
+                <span className="stat-label">You are not the only one</span>
+              </div>
+              <div className="stat-number-row">
+                <span className="stat-number">{counts.reach}%</span>
+                <span className="stat-unit">of adults</span>
+              </div>
+              <p className="stat-body">
+                Feel low, anxious or overwhelmed at some point. Needing support is a human thing, not a flaw.
+              </p>
+            </div>
+
+            <div className="card stat-card stat-soft">
+              <div className="stat-leading-row">
+                <span className="stat-icon" aria-hidden="true">
+                  ◎
+                </span>
+                <span className="stat-label">Talking really helps</span>
+              </div>
+              <div className="stat-number-row">
+                <span className="stat-number">{counts.help}%</span>
+                <span className="stat-unit">of people</span>
+              </div>
+              <p className="stat-body">
+                Say they feel lighter when they speak to someone they trust. You do not have to hold it alone.
+              </p>
+            </div>
+
+            <div className="card stat-card stat-soft">
+              <div className="stat-leading-row">
+                <span className="stat-icon" aria-hidden="true">
+                  ◦
+                </span>
+                <span className="stat-label">Starting early is an act of care</span>
+              </div>
+              <div className="stat-number-row">
+                <span className="stat-number">{counts.youth}%</span>
+                <span className="stat-unit">of patterns</span>
+              </div>
+              <p className="stat-body">
+                Begin in our younger years. Reaching out now is a gentle way to look after future-you.
+              </p>
+            </div>
+          </div>
+
+          {/* Right: image carousel using your Desi images */}
+          <div className="stats-column-right">
+            <div className="desi-frame">
+              <div className="desi-card inline">
+                <div className="desi-image-container">
+                  {prevIndex !== null && (
+                    <img
+                      className={`desi-img desi-img-prev ${isCrossfading ? 'fading-out' : 'hidden'}`}
+                      src={`/desi/${images[prevIndex]}`}
+                      alt="MindSettler illustration"
+                      loading="lazy"
+                    />
+                  )}
+                  <img
+                    className={`desi-img desi-img-current ${isCrossfading ? 'fading-in' : ''}`}
+                    src={`/desi/${images[imageIndex]}`}
+                    alt="MindSettler illustration"
+                    loading="eager"
+                  />
+                </div>
+
+                <div className="desi-controls">
+                  <button
+                    type="button"
+                    className="desi-arrow-inline desi-arrow-prev"
+                    onClick={prevImage}
+                    aria-label="Previous illustration"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    className="desi-arrow-inline desi-arrow-next"
+                    onClick={nextImage}
+                    aria-label="Next illustration"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <p className="desi-hint">Use arrows to navigate</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="about" className={`section ${aboutInView ? 'in-view' : ''}`} ref={aboutRef}>
         <div className="section-header">
           <p className="eyebrow">About MindSettler</p>
@@ -75,6 +243,63 @@ export default function HomePage() {
               <li>Blend of conversation, reflection, and psycho-education</li>
               <li>Online or at a calm, contained physical studio</li>
               <li>Clear boundaries around confidentiality and ethics</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="mindsettler-story" className={`section section-alt ${aboutInView ? 'in-view' : ''}`}>
+        <div className="section-header">
+          <p className="eyebrow">In the founder's words</p>
+          <h2>What MindSettler really means</h2>
+          <p className="section-subtitle">
+            A short reflection from the creator of MindSettler on why this space exists and what it hopes
+            to offer.
+          </p>
+        </div>
+
+        <div className="mindsettler-reel-wrapper">
+          <div className="mindsettler-reel-frame">
+            <iframe
+              src="https://www.instagram.com/p/DQ_Nzguk50a/embed"
+              title="MindSettler founder describing the meaning of MindSettler"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className={`section section-alt ${aboutInView ? 'in-view' : ''}`}>
+        <div className="section-header">
+          <p className="eyebrow">Services we offer</p>
+          <h2>Personalised therapy designed around you</h2>
+          <p className="section-subtitle">
+            A mix of evidence-based approaches and warm, human conversation – chosen according to what
+            you are working through, not a one-size-fits-all plan.
+          </p>
+        </div>
+
+        <div className="two-column services-list">
+          <div className="card">
+            <h3>Individual therapies</h3>
+            <ul className="bullet-list">
+              <li>Cognitive Behavioural Therapy (CBT)</li>
+              <li>Dialectical Behavioural Therapy (DBT)</li>
+              <li>Acceptance &amp; Commitment Therapy (ACT)</li>
+              <li>Schema Therapy</li>
+              <li>Emotion-Focused Therapy (EFT)</li>
+            </ul>
+          </div>
+
+          <div className="card">
+            <h3>Relational &amp; supportive work</h3>
+            <ul className="bullet-list">
+              <li>Emotion-Focused Couples Therapy</li>
+              <li>Mindfulness-Based Cognitive Therapy</li>
+              <li>Client-Centred Therapy</li>
+              <li>Space to integrate these approaches gently at your pace</li>
             </ul>
           </div>
         </div>
