@@ -137,11 +137,11 @@ function Header() {
     <header className="top-nav">
       <div className="nav-inner">
         <div className="brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <span className="brand-logo">MS</span>
-          <span className="brand-text">
-            <span className="brand-name">MindSettler</span>
-            <span className="brand-tagline">Psycho-education &amp; mental well-being studio</span>
-          </span>
+          <img
+            src="/Mindsettler_logo_Final-Photoroom.png"
+            alt="MindSettler by Parnika - Psycho-education & mental well-being studio"
+            className="brand-logo-img"
+          />
         </div>
         <nav className="nav-links">
           <a href="/about">
