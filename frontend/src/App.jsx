@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import './index.css'
+import './overrides.css'
+
 import './scroll-animations.css'
 import './reel.css'
 import './no-step-labels.css'

@@ -256,13 +256,15 @@ main {
   padding-bottom: 5rem;
   background: linear-gradient(
     180deg,
-    #FFFFFF 0%,
-    rgba(255, 255, 255, 0.98) 15%,
-    rgba(255, 247, 251, 0.3) 50%,
-    rgba(255, 247, 251, 0.45) 80%,
-    rgba(255, 247, 251, 0.5) 95%,
-    rgba(255, 240, 248, 0.65) 100%
-  );
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 210, 231, 0.85) 40%,
+    rgba(255, 180, 215, 0.95) 75%,
+    rgba(255, 240, 248, 0.98) 100%
+  ),
+  url('/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
   margin-bottom: 0;
@@ -621,20 +623,26 @@ main {
   box-shadow: 0 18px 40px rgba(63, 41, 101, 0.16);
 }
 
-@media (max-width: 768px) {
-  .section {
-    padding: 2.8rem 1.2rem;
-  }
-
-  .section-header {
-    margin-bottom: 2rem;
-  }
-
-  .section-header h2::after {
-    margin-top: 0.45rem;
-    width: 44px;
-  }
+#mindsettler-story {
+  position: relative;
+  overflow: hidden;
 }
+
+#mindsettler-story::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/final.svg') center bottom/cover no-repeat;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#mindsettler-story > * {
+  position: relative;
+  z-index: 1;
+}
+
 
 .timeline {
   max-width: 900px;
@@ -909,6 +917,14 @@ textarea {
   box-shadow: 0 14px 35px rgba(221, 23, 100, 0.3);
   position: relative;
   overflow: hidden;
+  z-index: 0;
+}
+
+.primary-btn span,
+.primary-btn {
+  color: #FFFFFF;
+  position: relative;
+  z-index: 1;
 }
 
 .primary-btn::before {
@@ -919,10 +935,11 @@ textarea {
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
   transform: translate(-50%, -50%);
   transition: width 600ms, height 600ms;
   pointer-events: none;
+  z-index: 0;
 }
 
 .primary-btn:hover {
@@ -1791,19 +1808,71 @@ textarea {
   .desi-arrow { width: 36px; height: 36px; font-size: 1.3rem }
 }
 
-/* caption */
-.desi-caption {
-  position: absolute;
-  left: 22px;
-  bottom: 22px;
-  z-index: 4;
+.mindsettler-story-grid {
+  align-items: stretch;
 }
-.desi-caption-inner {
-  background: rgba(255,255,255,0.9);
-  color: var(--text);
-  padding: 8px 12px;
-  border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(63,41,101,0.06);
-  font-size: 0.9rem;
+
+.founder-note {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 247, 251, 0.96) 100%);
+}
+
+.founder-note h3 {
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.founder-note p {
+  margin: 0.35rem 0;
+  color: var(--text-soft);
+}
+
+.mindsettler-reel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mindsettler-reel-frame {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(63, 41, 101, 0.25);
+  background: #000;
+}
+
+.mindsettler-reel-frame iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(221, 23, 100, 0.85) 40%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  filter: blur(0.3px);
+  animation: sparkle-fade 600ms ease-out forwards;
+  z-index: 9999;
+}
+
+@keyframes sparkle-fade {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -16px, 0) scale(0.2);
+    opacity: 0;
+  }
 }
 

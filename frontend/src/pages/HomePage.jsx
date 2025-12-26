@@ -72,6 +72,26 @@ export default function HomePage() {
     requestAnimationFrame(step)
   }, [statsInView])
 
+  useEffect(() => {
+    const prefersReduced = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) return
+
+    function handleMove(e) {
+      const sparkle = document.createElement('span')
+      sparkle.className = 'sparkle'
+      sparkle.style.left = `${e.clientX}px`
+      sparkle.style.top = `${e.clientY}px`
+      document.body.appendChild(sparkle)
+      setTimeout(() => {
+        sparkle.remove()
+      }, 600)
+    }
+
+    window.addEventListener('mousemove', handleMove)
+    return () => window.removeEventListener('mousemove', handleMove)
+  }, [])
+
   return (
     <main id="top">
       <section className="hero">
@@ -96,17 +116,13 @@ export default function HomePage() {
             </p>
           </div>
           <div className="hero-visual">
-            <div className="journey-card" style={{ animation: 'slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards' }}>
-              <p className="eyebrow">Your journey</p>
-              <ol className="journey-list">
-                <li>Notice something feels heavy, confusing, or stuck.</li>
-                <li>Reach out and book your first 60-minute session.</li>
-                <li>Understand what is happening inside you with gentle guidance.</li>
-                <li>Design a personalised journey with follow-up sessions.</li>
-                <li>Build language, tools, and practices that stay with you.</li>
-              </ol>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '100%', maxWidth: 440, borderRadius: 18, overflow: 'hidden', boxShadow: '0 20px 60px rgba(63,41,101,0.12)' }}>
+                <video src={encodeURI('therapist.mp4')} controls playsInline preload="metadata" style={{ width: '100%', border: 'solid', minHeight: 400, borderRadius: 12 }} />
+              </div>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -142,7 +158,7 @@ export default function HomePage() {
             <div className="card stat-card stat-soft">
               <div className="stat-leading-row">
                 <span className="stat-icon" aria-hidden="true">
-                  ◎
+                  ●
                 </span>
                 <span className="stat-label">Talking really helps</span>
               </div>
@@ -158,7 +174,7 @@ export default function HomePage() {
             <div className="card stat-card stat-soft">
               <div className="stat-leading-row">
                 <span className="stat-icon" aria-hidden="true">
-                  ◦
+                  ●
                 </span>
                 <span className="stat-label">Starting early is an act of care</span>
               </div>
@@ -213,13 +229,24 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <p className="desi-hint">Use arrows to navigate</p>
+              <div className="journey-card-moved" style={{ maxWidth: 520, margin: '2rem auto' }}>
+                <div className="card journey-card" style={{ borderRadius: 18 }}>
+                  <p className="eyebrow">Your journey</p>
+                  <ol className="journey-list">
+                    <li>Notice something feels heavy, confusing, or stuck.</li>
+                    <li>Reach out and book your first 60-minute session.</li>
+                    <li>Understand what is happening inside you with gentle guidance.</li>
+                    <li>Design a personalised journey with follow-up sessions.</li>
+                    <li>Build language, tools, and practices that stay with you.</li>
+                  </ol>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="about" className={`section ${aboutInView ? 'in-view' : ''}`} ref={aboutRef}>
+      <section id="about" className={`section-alt ${aboutInView ? 'in-view' : ''}`} ref={aboutRef}>
         <div className="section-header">
           <p className="eyebrow">About MindSettler</p>
           <h2>A psycho-education studio for everyday life</h2>
@@ -258,15 +285,48 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mindsettler-reel-wrapper">
-          <div className="mindsettler-reel-frame">
-            <iframe
-              src="https://www.instagram.com/p/DQ_Nzguk50a/embed"
-              title="MindSettler founder describing the meaning of MindSettler"
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              allowFullScreen
-              loading="lazy"
-            />
+        <div className="two-column mindsettler-story-grid">
+          <div className="card founder-note">
+            <p className="eyebrow">A note from the founder</p>
+            <h3>Why I created MindSettler</h3>
+            <p>
+              MindSettler began as a quiet question: what if there was a soft corner of the internet where
+              people could slow down, name what they are feeling, and be met without judgement?
+            </p>
+            <p>
+              Over the years, in my own therapy and in conversations with friends, I kept seeing how powerful
+              it is when someone finally finds language for what has been sitting inside them for a long time.
+            </p>
+            <p>
+              This space is my way of offering that to you – a contained, thoughtful studio where psychology
+              meets everyday life, and where your stories are held with care.
+            </p>
+          <div className="founder-embed" style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+            <div className="founder-embed-frame" style={{ width: '100%', maxWidth: 420, borderRadius: 12, overflow: 'hidden', boxShadow: '0 18px 40px rgba(63,41,101,0.12)' }}>
+              <iframe
+                src="https://www.instagram.com/p/DSuAGlojGV9/embed"
+                title="Founder supplementary post"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+                style={{ width: '100%', border: 'none' }}
+              />
+            </div>
+          </div>
+          </div>
+
+
+
+          <div className="mindsettler-reel-wrapper">
+            <div className="mindsettler-reel-frame">
+              <iframe
+                src="https://www.instagram.com/p/DQ_Nzguk50a/embed"
+                title="MindSettler founder describing the meaning of MindSettler"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
